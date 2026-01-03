@@ -1,23 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getProducts, saveProducts } from '../utils/storage';
+import { saveProduct } from '../utils/storage';
 
 const AddProduct = () => {
-  // 1. Setup the "Form Memory"
-  const [form, setForm] = useState({ name: '', price: '', category: '' });
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [category, setCategory] = useState('Electronics'); // Default category
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Stop page from refreshing
-    
-    const currentProducts = getProducts();
-    const newProduct = { 
-      ...form, 
-      id: Date.now() // Unique ID for each product
-    };
-
-    saveProducts([...currentProducts, newProduct]); // Save to LocalStorage
-    navigate('/'); // Redirect to Home Page
+    e.preventDefault();
+    const newProduct = { id: Date.now(), name, price, category };
+    saveProduct(newProduct);
+    navigate('/');
   };
 
   return (
@@ -25,24 +20,27 @@ const AddProduct = () => {
       <h1>Add New Product</h1>
       <form onSubmit={handleSubmit} className="product-form">
         <input 
-          placeholder="Product Name" 
-          value={form.name}
-          onChange={e => setForm({...form, name: e.target.value})} 
-          required 
+          type="text" placeholder="Product Name" required 
+          value={name} onChange={(e) => setName(e.target.value)}
         />
         <input 
-          placeholder="Price" 
-          type="number" 
-          value={form.price}
-          onChange={e => setForm({...form, price: e.target.value})} 
-          required 
+          type="number" placeholder="Price" required 
+          value={price} onChange={(e) => setPrice(e.target.value)}
         />
-        <input 
-          placeholder="Category" 
-          value={form.category}
-          onChange={e => setForm({...form, category: e.target.value})} 
-          required 
-        />
+        
+        {/* Category Dropdown */}
+        <select 
+          value={category} 
+          onChange={(e) => setCategory(e.target.value)}
+          className="search-input" /* Same styling as search */
+          style={{marginBottom: '1rem'}}
+        >
+          <option value="Electronics">Electronics</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Grocery">Grocery</option>
+          <option value="Books">Books</option>
+        </select>
+
         <button type="submit">Save Product</button>
       </form>
     </div>

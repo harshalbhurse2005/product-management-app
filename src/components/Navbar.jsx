@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getCart } from '../utils/storage';
 
-const Navbar = () => {
+const Navbar = ({ toggleTheme, theme }) => {
   const [cartCount, setCartCount] = useState(0);
   const location = useLocation();
 
-  // Jab bhi page change ho (location change), cart ka count update karein
   useEffect(() => {
     const cart = getCart();
     const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
@@ -20,15 +19,14 @@ const Navbar = () => {
       </div>
       
       <div className="nav-links">
+        {/* THEME TOGGLE BUTTON */}
+        <button onClick={toggleTheme} className="theme-toggle-btn">
+          {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+        </button>
+
         <Link to="/">Home</Link>
-        
-        {/* Naya Weather Link yahan hai */}
-        <Link to="/weather" style={{ color: '#bb86fc', fontWeight: 'bold' }}>
-          ☁️ Weather
-        </Link>
-        
+        <Link to="/weather">☁️ Weather</Link>
         <Link to="/add">Add Product</Link>
-        
         <Link to="/cart" className="nav-cart">
           🛒 Cart 
           {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
