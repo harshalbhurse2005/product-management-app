@@ -6,7 +6,7 @@ const Weather = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const API_KEY = "0e765e3e7e8a5c4e09169b9dd0f7e14a"; // Aapki Active Key
+  const API_KEY = import.meta.env.VITE_WEATHER_API_KEY; // Aapki Active Key
 
   const fetchWeather = async (e) => {
     e.preventDefault();
