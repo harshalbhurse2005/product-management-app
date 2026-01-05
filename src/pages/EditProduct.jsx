@@ -9,16 +9,23 @@ const EditProduct = () => {
 
   useEffect(() => {
     const products = getProducts();
+    // ParseInt zaroori hai kyunki URL se ID string mein aati hai
     const productToEdit = products.find(p => p.id === parseInt(id));
-    if (productToEdit) setForm(productToEdit);
+    if (productToEdit) {
+      setForm(productToEdit);
+    }
   }, [id]);
 
   const handleUpdate = (e) => {
     e.preventDefault();
     const products = getProducts();
+    
+    // Purani list mein se product update karein
     const updatedProducts = products.map(p => 
       p.id === parseInt(id) ? { ...form, id: parseInt(id) } : p
     );
+    
+    // Sahi function call: saveProducts
     saveProducts(updatedProducts);
     navigate('/');
   };
@@ -27,10 +34,39 @@ const EditProduct = () => {
     <div className="container">
       <h1>Edit Product</h1>
       <form onSubmit={handleUpdate} className="product-form">
-        <input value={form.name} onChange={e => setForm({...form, name: e.target.value})} required />
-        <input type="number" value={form.price} onChange={e => setForm({...form, price: e.target.value})} required />
-        <input value={form.category} onChange={e => setForm({...form, category: e.target.value})} required />
-        <button type="submit">Update Product</button>
+        <label>Product Name</label>
+        <input 
+          className="search-input"
+          value={form.name} 
+          onChange={e => setForm({...form, name: e.target.value})} 
+          required 
+        />
+        
+        <label>Price (₹)</label>
+        <input 
+          className="search-input"
+          type="number" 
+          value={form.price} 
+          onChange={e => setForm({...form, price: e.target.value})} 
+          required 
+        />
+        
+        <label>Category</label>
+        <select 
+          className="search-input"
+          value={form.category} 
+          onChange={e => setForm({...form, category: e.target.value})}
+          required
+        >
+          <option value="Electronics">Electronics</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Groceries">Groceries</option>
+          <option value="Books">Books</option>
+        </select>
+        
+        <button type="submit" className="edit-btn" style={{marginTop: '20px'}}>
+          Update Product
+        </button>
       </form>
     </div>
   );

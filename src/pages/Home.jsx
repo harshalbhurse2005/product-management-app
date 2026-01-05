@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getProducts, deleteProduct, saveToCart } from '../utils/storage';
+import { getProducts, deleteProduct, addToCart } from '../utils/storage';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -54,8 +54,8 @@ const Home = () => {
             <p>Price: <strong>₹{product.price}</strong></p>
             <p>Category: <span className="cart-badge" style={{position: 'static', background: 'var(--primary)'}}>{product.category}</span></p>
             
-            <div className="card-buttons">
-              <button onClick={() => saveToCart(product)} className="edit-btn">Add to Cart</button>
+            <div className="card-buttons">       
+              <button onClick={() => addToCart(product)} className="edit-btn" style={{background: '#10b981'}}>Add to Cart</button>
               <Link to={`/edit/${product.id}`} className="edit-btn" style={{background: '#333'}}>Edit</Link>
               <button onClick={() => handleDelete(product.id)} className="delete-btn">Delete</button>
             </div>
