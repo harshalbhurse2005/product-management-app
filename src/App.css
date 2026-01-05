@@ -1,78 +1,96 @@
-/* --- 1. PREMIUM VARIABLES --- */
+/* --- 1. PREMIUM DESIGN SYSTEM --- */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+
 :root {
   --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --bg-dark: #0f1115;      /* Richer Dark */
-  --card-dark: #1c1f26;    /* Soft Surface */
-  --text-dark: #f1f5f9;
-  --radius: 16px;          /* Softer corners */
-  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  --primary-glow: rgba(99, 102, 241, 0.3);
+  --danger: #ef4444;
+  --radius: 14px;
+  --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
 }
 
+/* THEME DEFINITIONS */
 .dark-theme {
-  --bg-body: var(--bg-dark);
-  --bg-surface: var(--card-dark);
-  --text-main: var(--text-dark);
+  --bg-body: #050507;
+  --bg-surface: #111116;
+  --bg-card: #1c1c24;
+  --text-main: #ffffff;
   --text-muted: #94a3b8;
-  --border-color: #2d333f;
+  --border: rgba(255, 255, 255, 0.08);
+  --nav-bg: rgba(17, 17, 22, 0.8);
 }
 
 .light-theme {
   --bg-body: #f8fafc;
   --bg-surface: #ffffff;
+  --bg-card: #ffffff;
   --text-main: #0f172a;
   --text-muted: #64748b;
-  --border-color: #e2e8f0;
+  --border: rgba(0, 0, 0, 0.06);
+  --nav-bg: rgba(255, 255, 255, 0.8);
 }
 
 /* --- 2. GLOBAL RESET --- */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden; /* Fixes that right-side vertical line glitch */
+  position: relative;
 }
 
 body {
   background-color: var(--bg-body);
   color: var(--text-main);
-  font-family: 'Inter', -apple-system, sans-serif;
-  transition: all 0.3s ease;
-  min-height: 100vh;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease;
 }
 
-/* --- 3. NAVBAR (Centering & Glass Effect) --- */
+/* --- 3. PREMIUM FIXED GLASS NAVBAR (From Code 1) --- */
 .navbar {
-  background: var(--bg-surface);
-  border-bottom: 1px solid var(--border-color);
+  height: 80px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
-  z-index: 100;
-  backdrop-filter: blur(10px); /* Modern look */
-  width: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
 }
 
-/* Navbar ke andar ka content center karne ke liye */
 .nav-container {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
 }
 
 .nav-logo a {
   font-weight: 800;
-  font-size: 1.5rem;
-  color: var(--primary);
+  font-size: 1.6rem;
   text-decoration: none;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   letter-spacing: -1px;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 2rem;
 }
 
 .nav-links a {
@@ -80,126 +98,169 @@ body {
   color: var(--text-muted);
   font-weight: 600;
   font-size: 0.95rem;
-  transition: color 0.2s;
+  transition: var(--transition);
 }
 
 .nav-links a:hover {
   color: var(--primary);
 }
 
-/* --- 4. MAIN CONTAINER (Perfect Centering) --- */
-.container {
-  max-width: 1100px;
-  margin: 0 auto;       /* Horizontal Centering */
-  padding: 3rem 1.5rem;
-}
-
-h1 {
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin-bottom: 2.5rem;
-  text-align: center;   /* Header Centering */
-}
-
-/* --- 5. SEARCH & INPUTS --- */
-.search-container {
-  display: flex;
-  justify-content: center; /* Center the search bar */
-  gap: 12px;
-  margin-bottom: 3rem;
-}
-
-.search-input {
-  width: 100%;
-  max-width: 600px;
-  background: var(--bg-surface);
-  border: 2px solid var(--border-color);
-  border-radius: var(--radius);
-  padding: 14px 20px;
-  color: var(--text-main);
-  font-size: 1rem;
-  outline: none;
-}
-
-.search-input:focus {
-  border-color: var(--primary);
-}
-
-/* --- 6. PRODUCT GRID & CARDS --- */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 25px;
-}
-
-.product-card {
-  background: var(--bg-surface);
-  padding: 1.5rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow);
-  transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.product-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--primary);
-}
-
-/* --- 7. BUTTONS --- */
+/* Theme Toggle Button (Updated Hybrid) */
 .theme-toggle-btn {
   background: var(--primary);
   color: white;
   border: none;
   padding: 8px 18px;
   border-radius: 50px;
-  cursor: pointer;
   font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px var(--primary-glow);
 }
 
+.theme-toggle-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px var(--primary-glow);
+}
+
+/* --- 4. LAYOUT --- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 3rem;
+  letter-spacing: -1.5px;
+  background: linear-gradient(to right, var(--text-main), var(--text-muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- 5. SEARCH & INPUTS (Sleek Professional) --- */
+.search-input, .product-form input {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  color: var(--text-main);
+  font-size: 1rem;
+  transition: var(--transition);
+  margin-bottom: 1rem;
+}
+
+.search-input:focus, .product-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+  background: var(--bg-card);
+}
+
+/* --- 6. PRODUCT GRID & CARDS (Elevated) --- */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.product-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: var(--primary);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* --- 7. BUTTONS (Hybrid Professional) --- */
 .card-buttons {
   display: flex;
   gap: 12px;
-  margin-top: 20px;
+  margin-top: 2rem;
 }
 
 .edit-btn, .delete-btn {
   padding: 12px;
   border-radius: 10px;
-  border: none;
   font-weight: 700;
   cursor: pointer;
   flex: 1;
   text-align: center;
   text-decoration: none;
+  transition: var(--transition);
 }
 
-.edit-btn { background: var(--primary); color: white; }
-.delete-btn { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid var(--danger); }
+.edit-btn {
+  background: var(--accent-gradient);
+  color: white;
+  border: none;
+}
 
-/* --- 8. MOBILE RESPONSIVE (Fix) --- */
+.delete-btn {
+  background: transparent;
+  color: var(--danger);
+  border: 1.5px solid var(--danger);
+}
+
+.delete-btn:hover {
+  background: var(--danger);
+  color: white;
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--border);
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.qty-btn:hover { background: var(--primary); color: white; }
+
+/* --- 8. CART & BADGE (Advanced) --- */
+.nav-cart {
+  position: relative;
+  font-weight: 700;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -10px;
+  right: -15px;
+  background: var(--danger);
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 2px solid var(--bg-surface);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+}
+
+/* --- 9. MOBILE OPTIMIZATION --- */
 @media (max-width: 768px) {
-  .nav-container {
-    flex-direction: column;
-    gap: 15px;
-    padding: 1rem;
-  }
-
-  .nav-links {
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .container {
-    padding: 2rem 1rem;
-  }
-
-  .search-container {
-    flex-direction: column;
-  }
-
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
+  .navbar { height: auto; padding: 1.5rem 0; }
+  .nav-container { flex-direction: column; gap: 1rem; }
+  .nav-links { gap: 1rem; font-size: 0.8rem; }
+  .product-grid { grid-template-columns: 1fr; }
+  .container { padding: 2rem 1rem; }
+  h1 { font-size: 2.2rem; }
 }
